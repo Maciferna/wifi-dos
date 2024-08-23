@@ -1,4 +1,4 @@
-Script sencillo en python que permite realizar `ataques ddos` a wifi cercanos.
+Script sencillo en python *para linux* que permite realizar `ataques ddos` a wifi cercanos.
 
 #### Ejecución
 
