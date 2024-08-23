@@ -10,3 +10,7 @@ chmod +x ddos
 ./ddos
 ```
 
+
+
+
+Mi [instagram](https://instagram.com/macim0_)
