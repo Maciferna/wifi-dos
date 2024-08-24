@@ -2,6 +2,7 @@
 
 #librerias
 import os
+import time
 
 #colores
 RED = "\033[31m"
@@ -67,3 +68,6 @@ elif pregunta == "d":
 print(f"{GREEN}Saliendo del modo monitor{RESET}")
 os.system(f"sudo airmon-ng stop {placa2} > /dev/null 2>&1")
 print("Adiós")
+
+time.sleep(5)
+os.system("clear")
