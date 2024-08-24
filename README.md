@@ -3,11 +3,11 @@ Script sencillo en python *para linux* que permite realizar `ataques DoS` a wifi
 #### Ejecución
 
 ```css
-chmod +x ddos
+chmod +x wifi_DoS
 ```
 
 ```css
-./ddos
+./wifi_DoS
 ```
 
 
