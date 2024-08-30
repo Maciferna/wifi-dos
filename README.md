@@ -24,4 +24,8 @@ y para ejecutarlo:
 wifi_DoS
 ```
 
+### Requisitos 
+
+Una tarjeta de red que soporte modo monitor y la inyección de paquetes 
+
 Mi [instagram](https://instagram.com/macim0_)
