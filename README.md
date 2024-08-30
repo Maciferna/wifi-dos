@@ -1,4 +1,4 @@
-Script sencillo en python *para linux* que permite realizar `ataques DoS` a wifi cercanos.
+Script en python *para linux* que automatiza `ataques DoS` a wifi cercanos usando `aircrack-ng`.
 
 #### Ejecución
 
