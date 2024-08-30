@@ -28,8 +28,10 @@ banner = """
 """
 print(banner)
 
-verificacion = os.system("ls /bin/ | grep 'aircrack-ng'")
-if verificacion != "aircrack-ng":
+os.system("ls /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /usr/games /usr/local/games /snap/bin | grep 'aircrack-ng' > /tmp/aircrack_check.txt")
+with open("/tmp/aircrack_check.txt", "r") as file:
+    resultado = file.read()
+if 'aircrack-ng' not in resultado:
     print("Aircrack-ng no existe en su sistema y es necesario para que el script funcione")
     snap_o_apt = input("Desea instalarlo por 'apt' o por 'snap'? 's' o 'a': ")
     if snap_o_apt == 's':
@@ -40,7 +42,7 @@ if verificacion != "aircrack-ng":
     elif snap_o_apt == 'a':
         print("Instalando aircrack-ng")
         os.system("sudo apt install aircrack-ng")
-
+os.system("rm /tmp/aircrack_check.txt")
 
 
 #info
