@@ -33,7 +33,7 @@ with open("/tmp/aircrack_check.txt", "r") as file:
     resultado = file.read()
 if 'aircrack-ng' not in resultado:
     print("Aircrack-ng no existe en su sistema y es necesario para que el script funcione")
-    snap_o_apt = input("Desea instalarlo por 'apt' o por 'snap'? 's' o 'a': ")
+    snap_o_apt = input("Desea instalarlo por 'apt' o por 'snap' o salir? 'a' o 's' o 'e': ").lower()
     if snap_o_apt == 's':
         print("Instalando snapd....")
         os.system("sudo apt install snapd")
@@ -42,6 +42,9 @@ if 'aircrack-ng' not in resultado:
     elif snap_o_apt == 'a':
         print("Instalando aircrack-ng")
         os.system("sudo apt install aircrack-ng")
+    elif snap_o_apt == 'e':
+        print("Saliendo...")
+        exit()
 os.system("rm /tmp/aircrack_check.txt")
 
 
@@ -53,7 +56,6 @@ os.system(f"sudo airmon-ng start {placa} > /dev/null 2>&1")
 print(f"{YELLOW}Modo monitor{RESET} {GREEN}ACTIVADO{RESET}")
 os.system("cat /proc/net/dev | awk -F':' '{if (NR>2) print $1}' | tr -d ' '")
 placa2 = input(f"{YELLOW}Escriba el nuevo nombre de su placa de red:{RESET} ")
-
 
 
 
