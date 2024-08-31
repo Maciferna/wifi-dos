@@ -44,9 +44,10 @@ if 'aircrack-ng' not in resultado:
         os.system("sudo apt install aircrack-ng")
     elif snap_o_apt == 'e':
         print("Saliendo...")
+        os.system("rm /tmp/aircrack_check.txt")
         exit()
 os.system("rm /tmp/aircrack_check.txt")
-
+os.system("clear")
 
 #info
 os.system("cat /proc/net/dev | awk -F':' '{if (NR>2) print $1}' | tr -d ' '")
