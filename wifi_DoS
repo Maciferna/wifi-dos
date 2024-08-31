@@ -48,7 +48,7 @@ if 'aircrack-ng' not in resultado:
         exit()
 os.system("rm /tmp/aircrack_check.txt")
 os.system("clear")
-t
+
 #info
 os.system("cat /proc/net/dev | awk -F':' '{if (NR>2) print $1}' | tr -d ' '")
 placa = input(f"{YELLOW}Escriba el nombre de su tarjeta de red:{RESET} ")
