@@ -47,6 +47,7 @@ if 'aircrack-ng' not in resultado:
         os.system("rm /tmp/aircrack_check.txt")
         exit()
 os.system("rm /tmp/aircrack_check.txt")
+time.sleep(3)
 os.system("clear")
 
 #info
