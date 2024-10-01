@@ -33,7 +33,7 @@ with open("/tmp/aircrack_check.txt", "r") as file:
     resultado = file.read()
 if 'aircrack-ng' not in resultado:
     print(f"{RED}Aircrack-ng no existe en su sistema y es necesario para que el script funcione{RESET}")
-    snap_o_apt = input(f"{GREEN}Desea instalarlo por {RESET}{RED}'apt'{RESET}{GREEN} o por {RED}'snap'{RESET}{GREEN} o salir? 'a' o 's' o 'e': {RESET}").lower()
+    snap_o_apt = input(f"{GREEN}Desea instalarlo con {RESET}{RED}'apt'{RESET}{GREEN}, con {RED}'snap'{RESET}{GREEN}, con {RED}'pacman'{RESET}{GREEN} o salir? 'a', 's', 'p' o 'e': {RESET}").lower()
     if snap_o_apt == 's':
         print("Instalando snapd....")
         os.system("sudo apt install snapd")
@@ -46,6 +46,9 @@ if 'aircrack-ng' not in resultado:
         print("Saliendo...")
         os.system("rm /tmp/aircrack_check.txt")
         exit()
+    elif snap_o_apt == 'p':
+        print("Instalando aircrack-ng")
+        os.system("sudo pacman -S aircrack-ng")
 os.system("rm /tmp/aircrack_check.txt")
 time.sleep(3)
 os.system("clear")
