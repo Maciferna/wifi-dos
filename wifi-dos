@@ -5,7 +5,6 @@ verde='\033[1;32m'
 azul='\033[1;34m'
 reset='\033[0m'
 
-echo -e "[${verde}+${reset}] ${rojo}Tarjetas disponibles en su sistema: \n $(cat /proc/net/dev | awk -F':' '{if (NR>2) print $1}' | tr -d ' ')"
 check_error(){
   if [[ $? -ne 0 ]]; then
     echo -e "[${rojo}-${reset}] ${rojo}Hubo un error al ejecutar el comando${reset}"
@@ -33,6 +32,7 @@ check_bin(){
 
 check_bin "aircrack-ng"
 
+echo -e "[${verde}+${reset}] ${rojo}Tarjetas disponibles en su sistema: \n $(cat /proc/net/dev | awk -F':' '{if (NR>2) print $1}' | tr -d ' ')${reset}"
 
 echo -ne "[${verde}+${reset}] ${verde}Introduce el nombre de tu tarjeta de red: ${reset}"
 read tarjeta
