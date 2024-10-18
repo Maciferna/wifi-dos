@@ -1,12 +1,15 @@
 #!/bin/bash
 
+# Colores
 rojo='\033[1;31m'
 verde='\033[1;32m'
 azul='\033[1;34m'
 reset='\033[0m'
 
+
+# Algunas funciones necesarias y banner
 check_error(){
-  if [[ $? -ne 0 ]]; then
+  if [ $? -ne 0 ]; then
     echo -e "[${rojo}-${reset}] ${rojo}Hubo un error al ejecutar el comando${reset}"
     exit 1
   fi
@@ -20,6 +23,16 @@ error(){
 if [[ $(id -u) != 0 ]]; then
   echo -e "[${rojo}-${reset}] ${rojo}Ejecute el script como root${reset}"
   exit 1
+else
+  echo -e "${azul}    ██╗    ██╗██╗███████╗██╗      ██████╗  ██████╗ ███████╗
+    ██║    ██║██║██╔════╝██║      ██╔══██╗██╔═══██╗██╔════╝
+    ██║ █╗ ██║██║█████╗  ██║█████╗██║  ██║██║   ██║███████╗
+    ██║███╗██║██║██╔══╝  ██║╚════╝██║  ██║██║   ██║╚════██║
+    ╚███╔███╔╝██║██║     ██║      ██████╔╝╚██████╔╝███████║
+     ╚══╝╚══╝ ╚═╝╚═╝     ╚═╝      ╚═════╝  ╚═════╝ ╚══════╝${reset}"
+  echo -e "${rojo}Instagram: ${verde}macim0_${reset}"
+  sleep 2
+  clear
 fi
 
 check_bin(){
@@ -32,17 +45,21 @@ check_bin(){
 
 check_bin "aircrack-ng"
 
+
+# Informacion necesaria para el funcionamiento
 echo -e "[${verde}+${reset}] ${rojo}Tarjetas disponibles en su sistema: \n $(cat /proc/net/dev | awk -F':' '{if (NR>2) print $1}' | tr -d ' ')${reset}"
 
 echo -ne "[${verde}+${reset}] ${verde}Introduce el nombre de tu tarjeta de red: ${reset}"
 read tarjeta
 
+# Modo monitor
 airmon-ng start $tarjeta > /dev/null 2>&1
 check_error
 echo -e "[${verde}+${reset}] ${verde}Modo monitor activado con éxito en la tarjeta ($tarjeta)${reset}"
 
 tarjetaMON=$(cat /proc/net/dev | awk -F':' '{if (NR>2) print $1}' | tr -d ' ' | grep $tarjeta)
 
+# Funcion para salir y desactivar el modo monitor
 exit_mon(){
   echo -e "[${rojo}-${reset}] ${rojo}Saliendo....${reset}"
   airmon-ng stop $tarjetaMON > /dev/null 2>&1
@@ -53,6 +70,7 @@ exit_mon(){
 
 
 
+# Escaneo y ataque
 if ! airodump-ng --band abg $tarjetaMON; then
   exit_mon
 fi
